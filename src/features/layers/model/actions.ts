@@ -1,4 +1,4 @@
-import { beginEdit } from "../../drawing";
+import { beginEdit } from "../../drawing/model/history";
 import { doc } from "../../../shared/document";
 export function group() {
   beginEdit();
@@ -18,21 +18,26 @@ export function group() {
 export function reorder(delta: number) {
   const first = doc.shapes.find((s) => doc.selected.includes(s.id));
   if (!first) return;
+  // A boolean result is one object even though its operands live inside it.
+  const keyOf = (s: typeof first) => (s.group ? "g:" + s.group : "s:" + s.id);
   const blocks: (typeof doc.shapes)[] = [];
   for (const shape of doc.shapes) {
     const last = blocks.at(-1);
-    if (shape.group && last?.[0].group === shape.group) last.push(shape);
+    if (last && keyOf(last[0]) === keyOf(shape)) last.push(shape);
     else blocks.push([shape]);
   }
   const i = blocks.findIndex((b) => b.some((s) => s.id === first.id)),
     j = i + delta;
-  if (j < 0 || j >= blocks.length) return;
+  if (i < 0 || j < 0 || j >= blocks.length) return;
   beginEdit();
   [blocks[i], blocks[j]] = [blocks[j], blocks[i]];
   doc.shapes = blocks.flat();
 }
 export function remove() {
   beginEdit();
-  doc.shapes = doc.shapes.filter((s) => !doc.selected.includes(s.id));
+  const removed = new Set(
+    doc.shapes.filter((s) => doc.selected.includes(s.id)).map((s) => s.id),
+  );
+  doc.shapes = doc.shapes.filter((s) => !removed.has(s.id));
   doc.selected = [];
 }

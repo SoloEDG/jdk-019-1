@@ -1,4 +1,5 @@
 import { doc } from "../../../shared/document";
+import { syncLegacy } from "../../../shared/geometry";
 export function seed() {
   for (let k = 0; k < 8; k++) {
     const a = (k * Math.PI) / 4,
@@ -15,7 +16,7 @@ export function seed() {
         out: { x: x - Math.sin(t) * 36, y: y + Math.cos(t) * 36 },
       };
     });
-    doc.shapes.push({
+    const shape = {
       id: "petal" + k,
       name: "Petal " + (k + 1),
       nodes,
@@ -24,6 +25,8 @@ export function seed() {
       stroke: "#ffffff",
       width: 2,
       opacity: 1,
-    });
+    };
+    syncLegacy(shape);
+    doc.shapes.push(shape);
   }
 }

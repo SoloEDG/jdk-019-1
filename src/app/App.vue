@@ -15,8 +15,10 @@ import {
 import { NodeOverlay, coordinates, select } from "../features/nodes";
 import { Properties } from "../features/appearance";
 import { Layers, translateSelected } from "../features/layers";
+import { Pathfinder, isBoolean } from "../features/booleans";
 import { ExportBar, restore, save, storageStatus } from "../features/export";
 import type { Shape } from "../shared/types";
+import { fillRuleOf } from "../shared/geometry";
 if (!restore()) seed();
 doc.selected = doc.shapes.length
   ? [doc.shapes[Math.min(3, doc.shapes.length - 1)].id]
@@ -88,7 +90,7 @@ window.addEventListener("keydown", (e) => {
     <div class="left">
       <h5>PROJECT <span>＋</span></h5>
       <p class="project">▣ Bloom / Artboard 01</p>
-      <Tools /><Layers />
+      <Tools /><Layers /><Pathfinder />
       <p class="signature">✧ Designed to explore.</p>
     </div>
     <main>
@@ -120,8 +122,12 @@ window.addEventListener("keydown", (e) => {
             v-for="s in doc.shapes"
             :key="s.id"
             :data-shape="s.id"
+            :data-selected="doc.selected.includes(s.id) || undefined"
+            :data-boolean="isBoolean(s) ? s.source!.op : undefined"
+            :data-operation="isBoolean(s) ? s.source!.op : undefined"
             :d="path(s)"
             :fill="s.fill"
+            :fill-rule="fillRuleOf(s)"
             :stroke="s.stroke"
             :stroke-width="s.width"
             :opacity="s.opacity"

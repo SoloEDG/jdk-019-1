@@ -2,6 +2,8 @@
 import { active } from "../model/active";
 import { style } from "../model/style";
 import { colors } from "../lib/colors";
+import { nodeCount } from "../../../shared/geometry";
+import { BooleanSourcePanel } from "../../booleans";
 </script>
 <template>
   <aside>
@@ -54,16 +56,19 @@ import { colors } from "../lib/colors";
           @input="style('opacity', +($event.target as HTMLInputElement).value)"
       /></label>
       <h4>PATH DETAILS</h4>
-      <p>{{ active.nodes.length }} anchor points</p>
+      <p>{{ nodeCount(active) }} anchor points</p>
       <label
         >Closed path
         <input
           type="checkbox"
+          :disabled="!!active.contours?.length"
           :checked="active.closed"
           @change="
             style('closed', ($event.target as HTMLInputElement).checked)
-          " /></label
-    ></template>
+          "
+      /></label>
+      <BooleanSourcePanel />
+    </template>
     <p v-else>Select an object to edit its appearance.</p>
     <div class="tip">
       ✦ Make room for ideas.<br /><small

@@ -259,6 +259,97 @@ aside p {
 .tip small {
   font-size: 9px;
 }
+
+.pathfinder {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
+  padding: 0 0 10px;
+}
+.pathfinder button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 6px;
+  border: 1px solid #e9e3ee;
+  font-size: 10px;
+  background: white;
+}
+.pathfinder button b {
+  color: #8055d5;
+  font-weight: 600;
+}
+.pathfinder button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.pathfinder button:disabled:hover {
+  background: white;
+}
+.booleans .hint,
+.tip + .hint {
+  margin: 0;
+  color: #a294ae;
+  font-size: 10px;
+  line-height: 1.45;
+}
+.source-state {
+  margin: -12px 0 14px;
+  color: #8c76a6;
+  font-size: 10px;
+}
+.source-state.stale {
+  color: #c2703b;
+}
+.op-switch {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 5px;
+}
+.op-switch button {
+  font-size: 10px;
+  padding: 7px 4px;
+  border: 1px solid #eee7f3;
+}
+.op-switch button.active {
+  background: #8055d5;
+  color: white;
+}
+.operands {
+  list-style: none;
+  margin: 12px 0;
+  padding: 0;
+  font-size: 10px;
+}
+.operands li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 0;
+  border-bottom: 1px solid #f3eef8;
+  color: #6f6280;
+}
+.operand-tools {
+  display: flex;
+  gap: 2px;
+}
+.operand-tools button {
+  padding: 2px 6px;
+  font-size: 10px;
+  border: 1px solid #eee7f3;
+}
+.operand-tools button:disabled {
+  opacity: 0.35;
+}
+aside .expand {
+  width: 100%;
+  padding: 9px;
+  font-size: 10px;
+  border: 1px solid #d9c9f0;
+  color: #8055d5;
+  margin-bottom: 10px;
+}
 @media (max-width: 1250px) {
   .stage {
     justify-content: flex-start;

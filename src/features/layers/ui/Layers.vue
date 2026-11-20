@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { select } from "../../nodes";
 import { doc } from "../../../shared/document";
+import { isBoolean } from "../../booleans";
+import { contoursOf } from "../../../shared/geometry";
 import { group, reorder, remove } from "../model/actions";
 </script>
 <template>
@@ -18,8 +20,18 @@ import { group, reorder, remove } from "../model/actions";
       v-for="s in [...doc.shapes].reverse()"
       :class="{ chosen: doc.selected.includes(s.id) }"
       @click="select(s.id, $event.shiftKey)"
+      :data-testid="'layer-' + s.name"
     >
-      <i :style="{ background: s.fill }"></i>{{ s.group ? "▧" : "◇" }}
+      <i :style="{ background: s.fill }"></i
+      >{{
+        s.group
+          ? "▧"
+          : isBoolean(s)
+            ? "∪"
+            : contoursOf(s).length > 1
+              ? "❖"
+              : "◇"
+      }}
       {{ s.name }}<span>◉</span>
     </button>
   </section>
